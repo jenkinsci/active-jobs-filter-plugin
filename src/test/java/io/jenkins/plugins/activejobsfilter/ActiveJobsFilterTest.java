@@ -102,12 +102,12 @@ public class ActiveJobsFilterTest {
     }
 
     @Test
-    public void descriptorRejectsInvalidRegex() {
+    public void descriptorRejectsInvalidRegex(JenkinsRule j) {
         ActiveJobsJobFilter.DescriptorImpl descriptor = new ActiveJobsJobFilter.DescriptorImpl();
 
-        assertEquals(FormValidation.Kind.OK, descriptor.doCheckAllowRegex(".*").kind);
-        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckAllowRegex("(").kind);
-        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckDenyRegex("[").kind);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckAllowRegex(null, ".*").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckAllowRegex(null, "(").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckDenyRegex(null, "[").kind);
     }
 
     @Test

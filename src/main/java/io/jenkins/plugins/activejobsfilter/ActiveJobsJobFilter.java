@@ -6,15 +6,17 @@ import hudson.model.ListView;
 import hudson.model.TopLevelItem;
 import hudson.model.View;
 import hudson.util.FormValidation;
-import hudson.util.ListBoxModel;
 import hudson.views.ViewJobFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
+import jenkins.model.Jenkins;
 import org.jenkinsci.Symbol;
+import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.verb.POST;
 
 public class ActiveJobsJobFilter extends ViewJobFilter {
 
@@ -107,21 +109,24 @@ public class ActiveJobsJobFilter extends ViewJobFilter {
             return "Active jobs filter";
         }
 
-        public ListBoxModel doFillJobTypeItems() {
-            ListBoxModel items = new ListBoxModel();
-            items.add("All", JobType.ALL.name());
-            items.add("Pipeline", JobType.PIPELINE.name());
-            items.add("Multibranch pipeline", JobType.MULTIBRANCH_PIPELINE.name());
-            items.add("Freestyle", JobType.FREESTYLE.name());
-            return items;
-        }
-
-        public FormValidation doCheckAllowRegex(@QueryParameter String value) {
+        @POST
+        public FormValidation doCheckAllowRegex(@AncestorInPath View view, @QueryParameter String value) {
+            checkConfigurePermission(view);
             return validateRegex(value);
         }
 
-        public FormValidation doCheckDenyRegex(@QueryParameter String value) {
+        @POST
+        public FormValidation doCheckDenyRegex(@AncestorInPath View view, @QueryParameter String value) {
+            checkConfigurePermission(view);
             return validateRegex(value);
+        }
+
+        private static void checkConfigurePermission(View view) {
+            if (view != null) {
+                view.checkPermission(View.CONFIGURE);
+            } else {
+                Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+            }
         }
 
         private static FormValidation validateRegex(String value) {

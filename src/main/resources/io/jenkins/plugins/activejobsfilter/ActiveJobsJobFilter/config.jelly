@@ -5,7 +5,9 @@
   </f:entry>
 
   <f:entry title="${%Job type}" field="jobType">
-    <f:select clazz="active-jobs-filter-job-type"/>
+    <f:enum clazz="active-jobs-filter-job-type">
+      ${it.displayName}
+    </f:enum>
   </f:entry>
 
   <f:entry title="${%Include PRs for multibranch jobs}" field="includeMultibranchPrs">
@@ -13,11 +15,11 @@
   </f:entry>
 
   <f:entry title="${%Regexp allow}" field="allowRegex">
-    <f:textbox default=".*"/>
+    <f:textbox default=".*" checkMethod="post"/>
   </f:entry>
 
   <f:entry title="${%Regexp deny}" field="denyRegex">
-    <f:textbox/>
+    <f:textbox checkMethod="post"/>
   </f:entry>
 
 </j:jelly>
