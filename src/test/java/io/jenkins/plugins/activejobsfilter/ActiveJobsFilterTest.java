@@ -17,17 +17,15 @@ import jenkins.scm.api.mixin.ChangeRequestSCMHead;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
+@WithJenkins
 public class ActiveJobsFilterTest {
 
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
-
     @Test
-    public void shouldIncludeRecentlyBuiltFreestyleJob() throws Exception {
+    public void shouldIncludeRecentlyBuiltFreestyleJob(JenkinsRule j) throws Exception {
         FreeStyleProject job = j.createFreeStyleProject("active-freestyle");
         j.buildAndAssertSuccess(job);
 
@@ -36,7 +34,7 @@ public class ActiveJobsFilterTest {
     }
 
     @Test
-    public void shouldFilterByAllowDenyRegex() throws Exception {
+    public void shouldFilterByAllowDenyRegex(JenkinsRule j) throws Exception {
         FreeStyleProject keep = j.createFreeStyleProject("team-a-keep");
         FreeStyleProject drop = j.createFreeStyleProject("team-b-drop");
         j.buildAndAssertSuccess(keep);
@@ -48,7 +46,7 @@ public class ActiveJobsFilterTest {
     }
 
     @Test
-    public void shouldFilterByJobType() throws Exception {
+    public void shouldFilterByJobType(JenkinsRule j) throws Exception {
         FreeStyleProject freestyle = j.createFreeStyleProject("freestyle");
         j.buildAndAssertSuccess(freestyle);
 
@@ -57,7 +55,7 @@ public class ActiveJobsFilterTest {
     }
 
     @Test
-    public void shouldOnlyIncludeFreestyleJobsForFreestyleType() throws Exception {
+    public void shouldOnlyIncludeFreestyleJobsForFreestyleType(JenkinsRule j) throws Exception {
         FreeStyleProject freestyle = j.createFreeStyleProject("only-freestyle");
         j.buildAndAssertSuccess(freestyle);
 
@@ -72,7 +70,7 @@ public class ActiveJobsFilterTest {
     }
 
     @Test
-    public void activeDaysZeroIncludesAnyStartedBuild() throws Exception {
+    public void activeDaysZeroIncludesAnyStartedBuild(JenkinsRule j) throws Exception {
         FreeStyleProject job = j.createFreeStyleProject("old-but-started");
         j.buildAndAssertSuccess(job);
 
@@ -83,7 +81,7 @@ public class ActiveJobsFilterTest {
     }
 
     @Test
-    public void shouldExcludeBuildsOutsideCutoff() throws Exception {
+    public void shouldExcludeBuildsOutsideCutoff(JenkinsRule j) throws Exception {
         FreeStyleProject job = j.createFreeStyleProject("stale");
         j.buildAndAssertSuccess(job);
 
@@ -94,7 +92,7 @@ public class ActiveJobsFilterTest {
     }
 
     @Test
-    public void invalidRegexDoesNotBreakFiltering() throws Exception {
+    public void invalidRegexDoesNotBreakFiltering(JenkinsRule j) throws Exception {
         FreeStyleProject job = j.createFreeStyleProject("regex-safe");
         j.buildAndAssertSuccess(job);
 
@@ -113,7 +111,7 @@ public class ActiveJobsFilterTest {
     }
 
     @Test
-    public void multibranchGroupUsesLatestBranchOrPrBuild() throws Exception {
+    public void multibranchGroupUsesLatestBranchOrPrBuild(JenkinsRule j) throws Exception {
         WorkflowJob branch = j.jenkins.createProject(WorkflowJob.class, "mb-branch");
         branch.setDefinition(new CpsFlowDefinition("def x = 1\n", true));
         addBranchProperty(branch, new SCMHead("main"));
