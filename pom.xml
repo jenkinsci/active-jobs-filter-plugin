@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>6.2116.v7501b_67dc517</version>
+    <version>6.2152.ve00a_731c3ce9</version>
     <relativePath />
   </parent>
 
@@ -37,7 +37,9 @@
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
 
     <spotless.check.skip>false</spotless.check.skip>
-    <ban-junit4-imports.skip>true</ban-junit4-imports.skip>
+    <ban-junit4-imports.skip>false</ban-junit4-imports.skip>
+    <ban-deprecated-stapler.skip>false</ban-deprecated-stapler.skip>
+    <ban-commons-lang-2.skip>false</ban-commons-lang-2.skip>
     <hpi.strictBundledArtifacts>true</hpi.strictBundledArtifacts>
   </properties>
 
@@ -46,7 +48,7 @@
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
         <artifactId>bom-${jenkins.baseline}.x</artifactId>
-        <version>5888.vd99c2b_38128d</version>
+        <version>6607.v3ed3d8ddfed8</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -57,17 +59,14 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins.workflow</groupId>
       <artifactId>workflow-multibranch</artifactId>
-      <version>821.vc3b_4ea_780798</version>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins.workflow</groupId>
       <artifactId>workflow-job</artifactId>
-      <version>1571.1580.v18e46842c125</version>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>branch-api</artifactId>
-      <version>2.1280.v0d4e5b_b_460ef</version>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.main</groupId>
