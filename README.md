@@ -1,4 +1,4 @@
-# active-jobs-filter
+# active-jobs-filter-plugin
 
 ## Introduction
 
