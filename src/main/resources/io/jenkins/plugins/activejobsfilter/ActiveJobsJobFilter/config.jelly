@@ -1,0 +1,23 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+  <f:entry title="${%Active in last (days)}" field="activeDays">
+    <f:number default="7" min="0"/>
+  </f:entry>
+
+  <f:entry title="${%Job type}" field="jobType">
+    <f:select clazz="active-jobs-filter-job-type"/>
+  </f:entry>
+
+  <f:entry title="${%Include PRs for multibranch jobs}" field="includeMultibranchPrs">
+    <f:checkbox/>
+  </f:entry>
+
+  <f:entry title="${%Regexp allow}" field="allowRegex">
+    <f:textbox default=".*"/>
+  </f:entry>
+
+  <f:entry title="${%Regexp deny}" field="denyRegex">
+    <f:textbox/>
+  </f:entry>
+
+</j:jelly>
