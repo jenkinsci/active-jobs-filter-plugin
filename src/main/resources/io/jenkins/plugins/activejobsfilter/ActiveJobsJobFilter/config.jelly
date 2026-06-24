@@ -5,7 +5,7 @@
   </f:entry>
 
   <f:entry title="${%Job type}" field="jobType">
-    <f:enum clazz="active-jobs-filter-job-type">
+    <f:enum>
       ${it.displayName}
     </f:enum>
   </f:entry>

@@ -2,10 +2,12 @@ package io.jenkins.plugins.activejobsfilter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import hudson.model.FreeStyleProject;
 import hudson.model.JobProperty;
+import hudson.model.ListView;
 import hudson.model.TopLevelItem;
 import hudson.scm.NullSCM;
 import hudson.util.FormValidation;
@@ -108,6 +110,32 @@ public class ActiveJobsFilterTest {
         assertEquals(FormValidation.Kind.OK, descriptor.doCheckAllowRegex(null, ".*").kind);
         assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckAllowRegex(null, "(").kind);
         assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckDenyRegex(null, "[").kind);
+    }
+
+    @Test
+    public void listViewConfigurationRoundTripsActiveJobsFilter(JenkinsRule j) throws Exception {
+        ListView view = new ListView("active-jobs", j.jenkins);
+        ActiveJobsJobFilter filter = new ActiveJobsJobFilter();
+        filter.setActiveDays(14);
+        filter.setJobType(JobType.MULTIBRANCH_PIPELINE);
+        filter.setIncludeMultibranchPrs(true);
+        filter.setAllowRegex("team-.*");
+        filter.setDenyRegex(".*experimental.*");
+        view.getJobFilters().add(filter);
+        j.jenkins.addView(view);
+
+        j.submit(j.createWebClient().getPage(view, "configure").getFormByName("viewConfig"));
+
+        ListView roundTrippedView = (ListView) j.jenkins.getView("active-jobs");
+        assertNotNull(roundTrippedView);
+        ActiveJobsJobFilter roundTrippedFilter =
+                roundTrippedView.getJobFilters().get(ActiveJobsJobFilter.class);
+        assertNotNull(roundTrippedFilter);
+        assertEquals(14, roundTrippedFilter.getActiveDays());
+        assertEquals(JobType.MULTIBRANCH_PIPELINE, roundTrippedFilter.getJobType());
+        assertTrue(roundTrippedFilter.isIncludeMultibranchPrs());
+        assertEquals("team-.*", roundTrippedFilter.getAllowRegex());
+        assertEquals(".*experimental.*", roundTrippedFilter.getDenyRegex());
     }
 
     @Test
