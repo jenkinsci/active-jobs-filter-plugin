@@ -122,7 +122,8 @@ public class ActiveJobsFilterTest {
         addBranchProperty(pr, new TestChangeRequestHead("PR-1", new SCMHead("main")));
         j.buildAndAssertSuccess(pr);
 
-        WorkflowMultiBranchProject group = new TestWorkflowMultiBranchProject(j.jenkins, "mb-group", List.of(branch, pr));
+        WorkflowMultiBranchProject group =
+                new TestWorkflowMultiBranchProject(j.jenkins, "mb-group", List.of(branch, pr));
 
         ActiveJobsFilter excludePrFilter = new ActiveJobsFilter(1, JobType.ALL, false, false, ".*", "");
         ActiveJobsFilter includePrFilter = new ActiveJobsFilter(1, JobType.ALL, true, false, ".*", "");

@@ -84,13 +84,7 @@ public class ActiveJobsJobFilter extends ViewJobFilter {
     public List<TopLevelItem> filter(List<TopLevelItem> added, List<TopLevelItem> all, View filteringView) {
         boolean includeBranchJobs = filteringView instanceof ListView && ((ListView) filteringView).isRecurse();
         ActiveJobsFilter filter = new ActiveJobsFilter(
-                activeDays,
-                jobType,
-                includeMultibranchPrs,
-                includeBranchJobs,
-                allowRegex,
-                denyRegex
-        );
+                activeDays, jobType, includeMultibranchPrs, includeBranchJobs, allowRegex, denyRegex);
         long now = System.currentTimeMillis();
         List<TopLevelItem> result = new ArrayList<>();
         for (TopLevelItem item : added) {

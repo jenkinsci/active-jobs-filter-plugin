@@ -28,8 +28,7 @@ public class ActiveJobsFilter {
             boolean includeMultibranchPrs,
             boolean includeBranchJobs,
             String includeRegex,
-            String excludeRegex
-    ) {
+            String excludeRegex) {
         this.activeDays = Math.max(0, activeDays);
         this.jobType = jobType == null ? JobType.ALL : jobType;
         this.includeMultibranchPrs = includeMultibranchPrs;
