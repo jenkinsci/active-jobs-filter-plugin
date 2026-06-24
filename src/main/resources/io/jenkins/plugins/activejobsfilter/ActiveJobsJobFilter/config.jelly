@@ -15,7 +15,7 @@
   </f:entry>
 
   <f:entry title="${%Regexp allow}" field="allowRegex">
-    <f:textbox default=".*" checkMethod="post"/>
+    <f:textbox default=".*"/>
   </f:entry>
 
   <f:entry title="${%Regexp deny}" field="denyRegex">
